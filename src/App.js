@@ -1,23 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import Navigation from './views/Navigation';
+import { React, useState } from 'react'
+
 
 function App() {
+
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const handleNavToggle = (newValue) => {
+    setIsNavOpen(newValue);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
+      <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
+        <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
+        <div className='inner'>
+        </div>
+      </div>
     </div>
   );
 }
