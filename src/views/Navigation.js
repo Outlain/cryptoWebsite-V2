@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { ToggleIcon, LogoIcon, NewsIcon } from '../svg/NavSvg';
+import { ToggleIcon, LogoIcon, NewsIcon, ChartIcon, HomeIcon } from '../svg/NavSvg';
 
 
 
@@ -34,9 +34,10 @@ function Navigation(props) {
             )}
             {isNavOpen && (
                 <ul>
-                    <li><a href="#Home"><LogoIcon /><span>Created By : <br /> Carlos <br /> Amado <br /> Roller</span></a></li>
-
-                    <li><a href="#Home"><NewsIcon /><span>Visit Crypto News</span></a></li>
+                    <li><a href="https://carlosamadoroller.com" ><LogoIcon /><span>Created By : <br /> Carlos <br /> Amado Roller</span></a></li>
+                    <li><a href="/"><HomeIcon /><span>Back to  <br /> Crypto Home</span></a></li>
+                    <li><a href="#Home"><ChartIcon /><span>Visit  <br />  Crypto Analytics</span></a></li>
+                    <li><a href="#Home"><NewsIcon /><span>Visit  <br />  Crypto News</span></a></li>
                 </ul>
             )}
         </nav>

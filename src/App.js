@@ -1,21 +1,25 @@
 import './App.css';
-import Navigation from './views/Navigation';
-import { React, useState } from 'react'
+// import Navigation from './views/Navigation';
+// import { React, useState } from 'react'
+import ChartsPage from './views/ChartsPage.js';
+import { Routes, Route } from 'react-router-dom'
+import LandingPage from './views/LandingPage';
 
 
 function App() {
 
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const handleNavToggle = (newValue) => {
-    setIsNavOpen(newValue);
-  }
+  // const [isNavOpen, setIsNavOpen] = useState(false);
+  // const handleNavToggle = (newValue) => {
+  //   setIsNavOpen(newValue);
+  // }
+
+  // isNavOpen={isNavOpen} onToggle={handleNavToggle}
   return (
-    <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
-      <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
-        <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
-        <div className='inner'>
-        </div>
-      </div>
+    <div className='max'>
+      <Routes>
+        <Route path='/charts' element={<ChartsPage />} />
+        <Route path='/' element={<LandingPage />} />
+      </Routes>
     </div>
   );
 }
