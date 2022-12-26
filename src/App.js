@@ -4,6 +4,7 @@ import './App.css';
 import ChartsPage from './views/ChartsPage.js';
 import { Routes, Route } from 'react-router-dom'
 import LandingPage from './views/LandingPage';
+import { Analytics } from '@vercel/analytics/react';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path='/charts' element={<ChartsPage />} />
         <Route path='/' element={<LandingPage />} />
       </Routes>
+      <Analytics />
     </div>
   );
 }
