@@ -46,6 +46,7 @@ function ChartsPage() {
         <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
             <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
+                <h1>Real Time Data (EST)</h1>
                 <div className='inner'>
                     {list.map((x) => {
                         // filter the tim state array to only include the data with the current x value

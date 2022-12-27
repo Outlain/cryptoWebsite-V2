@@ -38,6 +38,12 @@
   background-attachment: fixed;
 }
 
+.main-nav-closed h1 {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
 .nav-nav-closed {
   height: 5%;
   width: 10%;
@@ -89,14 +95,45 @@
   justify-content: center;
   align-items: center;
 }
+.inner-inner-error {
+  height: 35vh;
+  width: 45%;
+  border: solid 0.1rem black;
+  background-color: rgba(18, 20, 21, 0.75);
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .inner-inner {
   height: 35vh;
   width: 45%;
   border: solid 0.1rem black;
   background-color: rgba(18, 20, 21, 0.75);
   margin: 1rem;
+  display: flex;
+}
+.current {
+  height: 100%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.chart {
+  height: 100%;
+  width: 80%;
+}
+.green {
+  color: green;
+}
+.red {
+  color: #ff0000;
+}
+.black {
+  color: black;
+}
 @media screen and (max-width: 850px) {
   .inner-inner {
     height: 33vh;
@@ -127,6 +164,11 @@
   background-image: url("./img/crypto_charts_background_cleanup.png");
   box-shadow: 0 0 80px 10px rgb(49, 6, 57) inset;
   background-attachment: fixed;
+}
+.main-nav-open h1 {
+  height: 5%;
+  width: 100%;
+  text-align: center;
 }
 
 .nav-nav-open {
@@ -204,7 +246,6 @@
   text-align: center;
 }
 .inner-inner {
-
 }
 
 /* CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE  */

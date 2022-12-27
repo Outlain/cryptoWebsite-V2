@@ -25,44 +25,73 @@ ChartJS.register(
 );
 function IndividualCharts({ currentCoin, tim }) {
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-            }
-        },
-    };
-    const dataPoints = tim.map(item => JSON.parse(item.data)[currentCoin]);
+    try {
+        const mostRecentDataPoint = JSON.parse(tim[tim.length - 1].data)[currentCoin];
+
+        const SecondMostRecentDataPoint = JSON.parse(tim[tim.length - 2].data)[currentCoin];
+
+        var upDown = mostRecentDataPoint - SecondMostRecentDataPoint
+
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+        };
+        const dataPoints = tim.map(item => JSON.parse(item.data)[currentCoin]);
 
 
-    const labels = tim.slice(-25).map(item => item.timestamp.slice(10));
-    const slicedDataPoints = dataPoints.slice(-25);
+        const labels = tim.slice(-25).map(item => item.timestamp.slice(10));
+        const slicedDataPoints = dataPoints.slice(-25);
 
-    // Create chart data object
-    const data = {
-        labels: labels,
-        datasets: [
-          {
-            label: currentCoin,
-            data: slicedDataPoints,
-            borderColor: '#3e95cd',
-            backgroundColor: 'rgba(221,174,92,0.1)',
-            fill: true
-          }
-        ]
-      };
+        // Create chart data object
+        var upDownBorderColor = 'rgba(225,0,0)'
+        var upDownBackgroundColor = 'rgba(225,0,0,0.2)'
 
-    return (
-        <div className="inner-inner">
-            <Line options={options} data={data} />
-        </div>
-    );
+        if (upDown < 0.01) {
+            upDownBorderColor = 'rgba(225,0,0)'
+            upDownBackgroundColor = 'rgba(225,0,0,0.2)'
+
+        } else if (upDown === 0) {
+            upDownBorderColor = 'rgba(0,255,0)'
+            upDownBackgroundColor = 'rgba(0,255,0, 0.2)'
+
+
+        } else {
+            upDownBorderColor = 'rgba(0,128,0)'
+            upDownBackgroundColor = 'rgba(0,128,0,0.2)'
+        }
+
+
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: currentCoin.charAt(0).toUpperCase() + currentCoin.slice(1),
+                    data: slicedDataPoints,
+                    borderColor: upDownBorderColor,
+                    backgroundColor: upDownBackgroundColor,
+                    fill: true
+                }
+            ]
+        };
+
+
+        return (
+            <div className="inner-inner">
+                <div className='chart'><Line options={options} data={data} /></div>
+                <div className={upDown >= 0.01 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{mostRecentDataPoint}</div>
+            </div>
+        );
+    } catch (error) {
+        console.error(`Still Waiting on First trade for ${currentCoin}`)
+        return <div className="inner-inner-error"> Waiting for First Trade for {currentCoin} ! ....:</div>;
+    }
 }
-
-
-
 
 
 export default IndividualCharts;
