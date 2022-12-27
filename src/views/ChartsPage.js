@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect, useRef, Suspense } from 'react'
 import Navigation from './Navigation.js';
 import IndividualCharts from './IndividualCharts.js';
 
@@ -39,7 +39,7 @@ function ChartsPage() {
         // };
     }, []); // this empty array ensures that the effect only runs once when the component mounts
 
-    console.log(tim)
+    console.log(tim, list)
 
 
     return (
@@ -51,8 +51,11 @@ function ChartsPage() {
                     {list.map((x) => {
                         // filter the tim state array to only include the data with the current x value
                         const filteredTim = tim.filter(item => JSON.parse(item.data)[x]);
-                        
-                        return <IndividualCharts currentCoin={x} tim={filteredTim}></IndividualCharts>
+
+                        return (
+                            <Suspense fallback={<div>Loading chart...</div>}>
+                                <IndividualCharts currentCoin={x} tim={filteredTim}></IndividualCharts></Suspense>
+                        );
                     })}
                 </div>
             </div>
