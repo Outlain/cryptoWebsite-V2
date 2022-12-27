@@ -83,7 +83,7 @@ function IndividualCharts({ currentCoin, tim }) {
 
         return (
             <div className="inner-inner">
-                <div className='chart'><Line options={options} data={data} /></div>
+                <div className='chart'><Line options={options} data={data} height="100%" /></div>
                 <div className={upDown >= 0.01 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{mostRecentDataPoint}</div>
             </div>
         );
