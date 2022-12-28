@@ -1,6 +1,6 @@
-import { React, useState, useEffect, useRef, Suspense } from 'react'
+import { React, useState, useEffect, useRef, Suspense, lazy, useMemo } from 'react'
 import Navigation from './Navigation.js';
-import IndividualCharts from './IndividualCharts.js';
+const IndividualCharts = lazy(() => import('./IndividualCharts'));
 
 function ChartsPage() {
 
@@ -9,8 +9,7 @@ function ChartsPage() {
         setIsNavOpen(newValue);
     }
 
-    var list = ['bitcoin', 'ethereum', 'xrp', 'dogecoin', 'litecoin', 'cardano']
-    // console.log(list.map(x => x))
+    const list = useMemo(() => ['bitcoin', 'ethereum', 'xrp', 'dogecoin', 'litecoin', 'cardano'], []);    // console.log(list.map(x => x))
     // console.log(`prices?assets=${list}'`)
 
     const webSocketRef = useRef(null);
@@ -37,7 +36,7 @@ function ChartsPage() {
         //         console.error(error);
         //     }
         // };
-    }, []); // this empty array ensures that the effect only runs once when the component mounts
+    }, [list]); // this empty array ensures that the effect only runs once when the component mounts
 
     console.log(tim, list)
 
@@ -54,7 +53,8 @@ function ChartsPage() {
 
                         return (
                             <Suspense fallback={<div>Loading chart...</div>}>
-                                <IndividualCharts currentCoin={x} tim={filteredTim}></IndividualCharts></Suspense>
+                                <IndividualCharts currentCoin={x} tim={filteredTim}></IndividualCharts>
+                            </Suspense>
                         );
                     })}
                 </div>
