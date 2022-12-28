@@ -48,6 +48,7 @@ function ChartsPage() {
                 <h1>Real Time Data (EST)</h1>
                 <div className='inner'>
                     {list.map((x) => {
+                        console.log('what what 2')
                         // filter the tim state array to only include the data with the current x value
                         const filteredTim = tim.filter(item => JSON.parse(item.data)[x]);
 
