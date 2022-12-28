@@ -23,6 +23,8 @@ ChartJS.register(
     Filler,
     Legend
 );
+
+
 function IndividualCharts({ currentCoin, tim }) {
 
     try {
