@@ -51,7 +51,7 @@ function IndividualCharts({ currentCoin, tim }) {
         var upDownBorderColor = 'rgba(225,0,0)'
         var upDownBackgroundColor = 'rgba(225,0,0,0.2)'
 
-        if (upDown < 0.01) {
+        if (upDown < 0) {
             upDownBorderColor = 'rgba(225,0,0)'
             upDownBackgroundColor = 'rgba(225,0,0,0.2)'
 
@@ -84,7 +84,7 @@ function IndividualCharts({ currentCoin, tim }) {
         return (
             <div className="inner-inner">
                 <div className='chart'><Line options={options} data={data} height="100%" /></div>
-                <div className={upDown >= 0.01 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{mostRecentDataPoint}</div>
+                <div className={upDown >= 0 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{mostRecentDataPoint}</div>
             </div>
         );
     } catch (error) {
