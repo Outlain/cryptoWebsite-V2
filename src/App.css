@@ -15,6 +15,7 @@
 }
 
 /* Full Size WebPage */
+/* CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE  */
 /* NAVIGATION CLOSED  NAVIGATION CLOSED  NAVIGATION CLOSED  NAVIGATION CLOSED  NAVIGATION CLOSED  NAVIGATION CLOSED  NAVIGATION CLOSED  */
 /* CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE  */
 
@@ -24,24 +25,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(350deg, rgb(49, 6, 57) 0%, rgb(37, 77, 63) 100%);
+  /* background: linear-gradient(350deg, rgb(49, 6, 57) 0%, rgb(37, 77, 63) 100%); */
   background-attachment: fixed;
+  /* background-color: red; */
 }
 
 .main-nav-closed {
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
   background-size: cover;
   background-position: center;
-  background-image: url("./img/crypto_charts_background_cleanup.png");
-  box-shadow: 0 0 80px 10px rgb(49, 6, 57) inset;
-  background-attachment: fixed;
+  background: linear-gradient(to left, #141518, #282d30);
+  /* background-image: url("/src//img/charts-background.png"); */
+  background-size: contain;
+  /* background-attachment: fixed; */
+  position: relative;
 }
 
-.main-nav-closed h1 {
+.main-nav-closed::before {
+  content: "";
   height: 100%;
   width: 100%;
-  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  /* background-color: rgba(16, 18, 21, 1); */
+  /* backdrop-filter: invert(100%) blur(8px); */
+  position: absolute;
 }
 
 .nav-nav-closed {
@@ -54,6 +64,11 @@
   top: 2%;
   left: 2%;
   /* background-color: rgba(127, 84, 56, 0.5); */
+}
+.main-nav-closed h1 {
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
 @keyframes pulse {
   0% {
@@ -86,32 +101,44 @@
   transform: scale(1.5);
   animation: none;
 }
+
+/* NAV DONE  */
 .inner {
   height: 95%;
   width: 100vw;
   /* background-color: red; */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(1px, 1fr));
+  /* background-color: red; */
+  gap: 0.5rem;
 }
 .inner-inner-error {
-  height: 35vh;
-  width: 45%;
+  height: 15vh;
+  width: 25vw;
   border: solid 0.1rem black;
   background-color: rgba(18, 20, 21, 0.75);
-  margin: 1rem;
+  /* margin: 1rem; */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
+}
+.inner-inner-first {
+  z-index: 1;
+  grid-column: 2/4;
+  grid-row: 1/4;
+  border: solid 0.1rem rgba(179, 183, 187, 0.5);
 }
 .inner-inner {
-  height: 35vh;
-  width: 45%;
-  border: solid 0.1rem black;
-  background-color: rgba(18, 20, 21, 0.75);
-  margin: 1rem;
+  max-height: 15vh;
+  /* width: 25vh; */
+  /* background-color: rgba(18, 20, 21, 0.75); */
+  /* margin: 1rem; */
   display: flex;
+  border: solid 0.1rem rgba(179, 183, 187, 0.5);
+  /* background-color: RED; */
+  z-index: 1;
+  border-radius: 15px;
 }
 .current {
   height: 100%;
@@ -119,6 +146,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .chart {
@@ -145,7 +173,9 @@
 }
 /* Full Size WebPage */
 /* NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  */
-
+#navbar {
+  z-index: 5;
+}
 .App-nav-open {
   height: 150vh;
   width: 100vw;
@@ -210,6 +240,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  backdrop-filter: brightness(60%) blur(2px);
+  
 }
 .nav-nav-open ul li {
   height: 25%;
@@ -245,9 +277,6 @@
   color: rgb(212, 188, 188);
   text-align: center;
 }
-.inner-inner {
-}
-
 /* CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE  */
 
 /* LANDING PAGE MAIN PAGE LANDING PAGE MAIN PAGE LANDING PAGE MAIN PAGE LANDING PAGE MAIN PAGE LANDING PAGE MAIN PAGE  */

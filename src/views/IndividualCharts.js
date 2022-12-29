@@ -46,8 +46,8 @@ function IndividualCharts({ currentCoin, tim }) {
         const dataPoints = tim.map(item => JSON.parse(item.data)[currentCoin]);
 
 
-        const labels = tim.slice(-25).map(item => item.timestamp.slice(10));
-        const slicedDataPoints = dataPoints.slice(-25);
+        const labels = tim.slice(-7).map(item => item.timestamp.slice(10));
+        const slicedDataPoints = dataPoints.slice(-7);
 
         // Create chart data object
         var upDownBorderColor = 'rgba(225,0,0)'
@@ -67,7 +67,7 @@ function IndividualCharts({ currentCoin, tim }) {
             upDownBackgroundColor = 'rgba(0,128,0,0.2)'
         }
 
-
+        
 
         const data = {
             labels: labels,
@@ -86,7 +86,7 @@ function IndividualCharts({ currentCoin, tim }) {
         return (
             <div className="inner-inner">
                 <div className='chart'><Line options={options} data={data} height="100%" /></div>
-                <div className={upDown >= 0 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{mostRecentDataPoint}</div>
+                <div className={upDown >= 0 ? 'current green' : upDown === 0 ? 'current black' : 'current red'}>{Number.parseFloat(mostRecentDataPoint).toFixed(2)}</div>
             </div>
         );
     } catch (error) {

@@ -15,7 +15,7 @@ function ChartsPage() {
     const handleIdleChange = (isIdlPprop) => {
         setIsIdle(isIdlPprop);
     };
-    const list = useMemo(() => ['bitcoin', 'ethereum', 'xrp', 'dogecoin', 'litecoin', 'cardano'], []);    // console.log(list.map(x => x))
+    const list = useMemo(() => ['bitcoin', 'ethereum', 'eos', 'tezos', 'kava', 'xrp', "sushiswap", 'dogecoin', 'binance-coin', 'cardano', 'nano', 'polygon', 'polkadot', 'dodo', 'monero', 'solanium', 'avalanche', 'chainlink', 'litecoin', 'sushiswap'], []);    // console.log(list.map(x => x))
     // console.log(`prices?assets=${list}'`)
 
     const webSocketRef = useRef(null);
@@ -47,6 +47,9 @@ function ChartsPage() {
         return () => {
             // close the WebSocket connection when the component unmounts
             try {
+                document.removeEventListener('visibilitychange', () => {
+                    handleIdleChange(document.hidden);
+                });
                 webSocketRef.current.close(1000, 'Closing the connection');
             } catch (error) {
                 console.error(error);
@@ -82,7 +85,7 @@ function ChartsPage() {
     }, [isIdle, list]);
 
 
-
+    console.log(tim)
 
 
     useEffect(() => {
@@ -114,10 +117,10 @@ function ChartsPage() {
             console.log('CLEANING!!!CLEANING!!!CLEANING!!!CLEANING!!!')
             window.removeEventListener('mousedown', resetIdleTime);
             window.removeEventListener('scroll', resetIdleTime);
-            window.addEventListener('mousemove', resetIdleTime);
-            window.addEventListener('keydown', resetIdleTime);
-            window.addEventListener('focus', resetIdleTime);
-            window.addEventListener('touchstart', resetIdleTime);
+            window.removeEventListener('mousemove', resetIdleTime);
+            window.removeEventListener('keydown', resetIdleTime);
+            window.removeEventListener('focus', resetIdleTime);
+            window.removeEventListener('touchstart', resetIdleTime);
         };
 
 
@@ -143,6 +146,7 @@ function ChartsPage() {
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
                 <div className='inner'>
+                    <div className='inner-inner-first'></div>
                     {list.map((x) => {
                         // filter the tim state array to only include the data with the current x value
                         const filteredTim = tim.filter(item => JSON.parse(item.data)[x]);
