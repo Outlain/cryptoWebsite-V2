@@ -25,15 +25,12 @@ ChartJS.register(
 );
 
 
-function IndividualCharts({ currentCoin, currentActiveCoinDataIndividual }) {
+function IndividualCharts({ currentCoin, tim }) {
 
     try {
-        // console.log(currentActiveCoinDataIndividual)
+        const mostRecentDataPoint = JSON.parse(tim[tim.length - 1].data)[currentCoin];
 
-
-        const mostRecentDataPoint = (currentActiveCoinDataIndividual[currentActiveCoinDataIndividual.length - 1].value);
-
-        const SecondMostRecentDataPoint = (currentActiveCoinDataIndividual[currentActiveCoinDataIndividual.length - 2].value);
+        const SecondMostRecentDataPoint = JSON.parse(tim[tim.length - 2].data)[currentCoin];
 
         var upDown = mostRecentDataPoint - SecondMostRecentDataPoint
 
@@ -46,17 +43,11 @@ function IndividualCharts({ currentCoin, currentActiveCoinDataIndividual }) {
                 }
             },
         };
-        const dataPoints = currentActiveCoinDataIndividual.map(item => (item.value));
-
-        console.log(currentActiveCoinDataIndividual[0].timeStampCharting)
-
-        const labels = currentActiveCoinDataIndividual.slice(-10).map(item => item.timeStampCharting.slice(11));
-        const slicedDataPoints = dataPoints.slice(-10);
+        const dataPoints = tim.map(item => JSON.parse(item.data)[currentCoin]);
 
 
-        // console.log(currentCoin)
-        // console.log(labels)
-        // console.log(slicedDataPoints)
+        const labels = tim.slice(-7).map(item => item.timestamp.slice(10));
+        const slicedDataPoints = dataPoints.slice(-7);
 
         // Create chart data object
         var upDownBorderColor = 'rgba(225,0,0)'
@@ -76,7 +67,7 @@ function IndividualCharts({ currentCoin, currentActiveCoinDataIndividual }) {
             upDownBackgroundColor = 'rgba(0,128,0,0.2)'
         }
 
-
+        
 
         const data = {
             labels: labels,
@@ -99,8 +90,7 @@ function IndividualCharts({ currentCoin, currentActiveCoinDataIndividual }) {
             </div>
         );
     } catch (error) {
-        // console.error(error)
-        // console.error(`Still Waiting on First trade for ${currentCoin}`)
+        console.error(`Still Waiting on First trade for ${currentCoin}`)
         return <div className="inner-inner-error"> Waiting for First Trade for {currentCoin} ! ....:</div>;
     }
 }

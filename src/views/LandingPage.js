@@ -4,120 +4,115 @@ import { React, useState, useEffect, useRef } from 'react'
 function LandingPage() {
     const navigate = useNavigate();
 
-    const [tim, setTim] = useState([]);
-    const webSocketRef = useRef(null);
+    // const [tim, setTim] = useState([]);
+    // const webSocketRef = useRef(null);
+    // const [uniqueCoinNames, setUniqueCoinNames] = useState([]);
+    // const [currentActiveCoins, setCurrentActiveCoins] = useState([]);
 
-    var [uniqueCoinNames, setUniqueCoinNames] = useState([]);
+
+    // useEffect(() => {
+
+    //     if (!webSocketRef.current) {
+    //         // create the WebSocket connection if it doesn't already exist
+    //         webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
+    //         webSocketRef.onerror = (event) => {
+    //             console.error(event);
+    //             console.error('There is somethiing wrong when setting up a connection to the real time data!!')
+    //             // Handle possible websockeet errors 
+    //         };
+    //     }
+
+    //     webSocketRef.current.onmessage = function (msg) {
+    //         const timeStampObjectData = new Date()
+    //         const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
+    //         const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
+
+    //         setTim((prevTim) => [...prevTim, dataWithTimestamp]);
+
+    //         // console.log(msg.data)
+    //     };
+    //     return () => {
+    //         // close the WebSocket connection when the component unmounts
+    //         try {
+    //             // clearInterval(intervalId)
+    //             webSocketRef.current.close(1000, 'Closing the connection');
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     try {
+    //         function getUniqueCoinNames(data) {
+    //             // Create an empty object to store the unique coin names and their counts
+    //             const uniqueCoinNamesObject = {};
+
+    //             // Iterate through the array of objects
+    //             for (const datum of data) {
+    //                 // Parse the data field into a JavaScript object
+    //                 const coinOnlyData = JSON.parse(datum.data);
+    //                 const coinDateObjectUnix = datum.timeStampObject.getTime()
+
+    //                 // const pastTimeStamp
+    //                 // Get the keys of the coinOnlyData object (these are the coin names)
+    //                 const onlyCoinNames = Object.keys(coinOnlyData);
+
+    //                 // Get the current timestamp
+    //                 const currentTimestampUnix = new Date().getTime();
+
+    //                 // Iterate through the coin names
+    //                 for (const coinName of onlyCoinNames) {
+    //                     // Check if the coin name is already present in the uniqueCoinNamesObject object
+    //                     if (coinName in uniqueCoinNamesObject) {
+    //                         // Check if the coin has been added within the past 30 seconds
+    //                         if (currentTimestampUnix - coinDateObjectUnix < 30000) {
+    //                             // Increment the count for the coin
+    //                             uniqueCoinNamesObject[coinName].cacheCount++;
+    //                         } else {
+    //                             // Reset the count for the coin
+    //                             uniqueCoinNamesObject[coinName].cacheCount = 1;
+    //                         }
+    //                         // Increment the total count for the coin
+    //                         uniqueCoinNamesObject[coinName].totalCount++;
+    //                     } else {
+    //                         // Add the coin to the uniqueCoinNamesObject object with a count of 1 and a total count of 1
+    //                         uniqueCoinNamesObject[coinName] = { cacheCount: 1, totalCount: 1 };
+    //                     }
+    //                 }
+    //             }
+
+    //             // Convert the object to an array of objects
+    //             let uniqueCoinNamesObjectArray = Object.entries(uniqueCoinNamesObject).map(([coinName, { cacheCount, totalCount }]) => ({ coinName, cacheCount, totalCount }));
+
+    //             // Sort the array by the count in descending order
+    //             uniqueCoinNamesObjectArray.sort((a, b) => b.cacheCount - a.cacheCount);
+
+    //             uniqueCoinNamesObjectArray = uniqueCoinNamesObjectArray.slice(0, 30)
+    //             // Return the sorted array
+    //             return uniqueCoinNamesObjectArray;
+    //         }
+
+    //         setUniqueCoinNames(getUniqueCoinNames(tim))
+    //         // console.log(uniqueCoinNames)
 
 
-    useEffect(() => {
-        function memoryCache() {
-            if (uniqueCoinNames.length >= 54) {
-                console.log('Slicing the Array')
-                setUniqueCoinNames(uniqueCoinNames.slice(0, 54));
-            }
-        }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }, [tim])
 
-        let intervalId = setInterval(memoryCache, 30000);
 
-        return () => {
-            clearInterval(intervalId)
-        }
-    }, []
-    )
-    useEffect(() => {
+    // useEffect(() => {
+    //     const holding = uniqueCoinNames.map(elements => {
+    //         return elements.coinName
+    //     })
+    //     setCurrentActiveCoins(holding)
 
-        if (!webSocketRef.current) {
-            // create the WebSocket connection if it doesn't already exist
-            webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
-            webSocketRef.onerror = (event) => {
-                console.error(event);
-                console.error('There is somethiing wrong when setting up a connection to the real time data!!')
-                // Handle possible websockeet errors 
-            };
-        }
+    //     console.log(tim)
+    //     console.log(currentActiveCoins)
 
-        webSocketRef.current.onmessage = function (msg) {
-            const timeStampObjectData = new Date()
-            const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
-            const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting };
-
-            setTim((prevTim) => [...prevTim, dataWithTimestamp]);
-
-            // console.log(msg.data)
-        };
-        return () => {
-            // close the WebSocket connection when the component unmounts
-            try {
-                // clearInterval(intervalId)
-                webSocketRef.current.close(1000, 'Closing the connection');
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }, [])
-
-    useEffect(() => {
-        try {
-            function getUniqueCoinNames(data) {
-                // Create an empty object to store the unique coin names and their counts
-                const uniqueCoinNamesObject = {};
-
-                // Iterate through the array of objects
-                for (const datum of data) {
-                    // Parse the data field into a JavaScript object
-                    const coinOnlyData = JSON.parse(datum.data);
-                    const coinDateObjectUnix = datum.timeStampObject.getTime()
-
-                    // const pastTimeStamp
-                    // Get the keys of the coinOnlyData object (these are the coin names)
-                    const onlyCoinNames = Object.keys(coinOnlyData);
-
-                    // Get the current timestamp
-                    const currentTimestampUnix = new Date().getTime();
-
-                    // Iterate through the coin names
-                    for (const coinName of onlyCoinNames) {
-                        // Check if the coin name is already present in the uniqueCoinNamesObject object
-                        if (coinName in uniqueCoinNamesObject) {
-                            // Check if the coin has been added within the past 30 seconds
-                            if (currentTimestampUnix - coinDateObjectUnix < 40000) {
-                                // Increment the count for the coin
-                                uniqueCoinNamesObject[coinName].cacheCount++;
-                            } else {
-                                // Reset the count for the coin
-                                uniqueCoinNamesObject[coinName].cacheCount = 1;
-                            }
-                            // Increment the total count for the coin
-                            uniqueCoinNamesObject[coinName].totalCount++;
-                        } else {
-                            // Add the coin to the uniqueCoinNamesObject object with a count of 1 and a total count of 1
-                            uniqueCoinNamesObject[coinName] = { cacheCount: 1, totalCount: 1 };
-                        }
-                    }
-                }
-
-                // Convert the object to an array of objects
-                const uniqueCoinNamesObjectArray = Object.entries(uniqueCoinNamesObject).map(([coinName, { cacheCount, totalCount }]) => ({ coinName, cacheCount, totalCount }));
-
-                // Sort the array by the count in descending order
-                uniqueCoinNamesObjectArray.sort((a, b) => b.cacheCount - a.cacheCount);
-
-                // Return the sorted array
-                return uniqueCoinNamesObjectArray;
-            }
-
-            setUniqueCoinNames(getUniqueCoinNames(tim))
-
-        } catch (error) {
-            console.log(error)
-        }
-    }, [tim])
-
-    console.log(uniqueCoinNames)
-    // console.log(tim[0].timeStampObject.getTime())
-    // console.log(uniqueCoinNames)
-
+    // }, [uniqueCoinNames])
 
     return (
         <div className="landingpage">

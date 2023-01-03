@@ -11,20 +11,21 @@ function ChartsPage() {
     }
     const [isIdle, setIsIdle] = useState(false);
     const intervalRef = useRef(null);
-
     const handleIdleChange = (isIdlPprop) => {
         setIsIdle(isIdlPprop);
     };
-    const list = useMemo(() => ['bitcoin', 'ethereum', 'eos', 'tezos', 'kava', 'xrp', "sushiswap", 'dogecoin', 'binance-coin', 'cardano', 'nano', 'polygon', 'polkadot', 'dodo', 'monero', 'solanium', 'avalanche', 'chainlink', 'litecoin', 'sushiswap'], []);    // console.log(list.map(x => x))
-    // console.log(`prices?assets=${list}'`)
+
 
     const webSocketRef = useRef(null);
     const [tim, setTim] = useState([]);
+    const [uniqueCoinNames, setUniqueCoinNames] = useState([]);
+    const [currentActiveCoinsList, setCurrentActiveCoinsList] = useState([]);
+    const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
 
     useEffect(() => {
         if (!webSocketRef.current) {
             // create the WebSocket connection if it doesn't already exist
-            webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=${list}`);
+            webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
 
             webSocketRef.onerror = (event) => {
                 console.error(event);
@@ -33,11 +34,13 @@ function ChartsPage() {
             };
         }
         webSocketRef.current.onmessage = function (msg) {
-            const currentDate = new Date();
-            const timestamp = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
-            const dataWithTimestamp = { data: msg.data, timestamp };
+            const timeStampObjectData = new Date()
+            const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
+            const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
 
             setTim((prevTim) => [...prevTim, dataWithTimestamp]);
+
+            // console.log(msg.data)
         };
 
         document.addEventListener('visibilitychange', () => {
@@ -55,7 +58,111 @@ function ChartsPage() {
                 console.error(error);
             }
         }
-    }, [list]);
+    }, []);
+
+    useEffect(() => {
+        try {
+            if (webSocketRef.current.readyState === WebSocket.CLOSED) {
+                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
+            }
+            if (webSocketRef.current.readyState === WebSocket.OPEN) {
+
+                function getUniqueCoinNames(data) {
+                    // Create an empty object to store the unique coin names and their counts
+                    const uniqueCoinNamesObject = {};
+
+                    // Iterate through the array of objects
+                    for (const datum of data) {
+                        // Parse the data field into a JavaScript object
+                        const coinOnlyData = JSON.parse(datum.data);
+                        const coinDateObjectUnix = datum.timeStampObject.getTime()
+
+                        // const pastTimeStamp
+                        // Get the keys of the coinOnlyData object (these are the coin names)
+                        const onlyCoinNames = Object.keys(coinOnlyData);
+
+                        // Get the current timestamp
+                        const currentTimestampUnix = new Date().getTime();
+
+                        // Iterate through the coin names
+                        for (const coinName of onlyCoinNames) {
+                            // Check if the coin name is already present in the uniqueCoinNamesObject object
+                            if (coinName in uniqueCoinNamesObject) {
+                                // Check if the coin has been added within the past 30 seconds
+                                if (currentTimestampUnix - coinDateObjectUnix < 30000) {
+                                    // Increment the count for the coin
+                                    uniqueCoinNamesObject[coinName].cacheCount++;
+                                } else {
+                                    // Reset the count for the coin
+                                    uniqueCoinNamesObject[coinName].cacheCount = 1;
+                                }
+                                // Increment the total count for the coin
+                                uniqueCoinNamesObject[coinName].totalCount++;
+                            } else {
+                                // Add the coin to the uniqueCoinNamesObject object with a count of 1 and a total count of 1
+                                uniqueCoinNamesObject[coinName] = { cacheCount: 1, totalCount: 1 };
+                            }
+                        }
+                    }
+
+                    // Convert the object to an array of objects
+                    let uniqueCoinNamesObjectArray = Object.entries(uniqueCoinNamesObject).map(([coinName, { cacheCount, totalCount }]) => ({ coinName, cacheCount, totalCount }));
+
+                    // Sort the array by the count in descending order
+                    uniqueCoinNamesObjectArray.sort((a, b) => b.cacheCount - a.cacheCount);
+
+                    uniqueCoinNamesObjectArray = uniqueCoinNamesObjectArray.slice(0, 38)
+                    // Return the sorted array
+                    return uniqueCoinNamesObjectArray;
+                }
+
+                setUniqueCoinNames(getUniqueCoinNames(tim))
+                // console.log(uniqueCoinNames)
+            } else {
+                console.error(`The current Websocket Connection is not active ${webSocketRef.current}`)
+            }
+        } catch (error) {
+            console.log(error)
+            if (webSocketRef.current.readyState === WebSocket.CLOSED) {
+                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
+            }
+
+        }
+    }, [tim])
+
+    useEffect(() => {
+        const holding = uniqueCoinNames.map(elements => {
+            return elements.coinName
+        })
+        setCurrentActiveCoinsList(holding)
+
+
+        const result = {}
+
+        tim.forEach(obj => {
+            const data = JSON.parse(obj.data)
+            Object.keys(data).forEach(key => {
+                if (currentActiveCoinsList.includes(key)) {
+                    if (!result[key]) {
+                        result[key] = []
+                    }
+                    result[key].push({
+                        value: data[key],
+                        timeStampObject: obj.timeStampObject,
+                        timeStampCharting: obj.timeStampCharting
+                    })
+                }
+            })
+        })
+
+        setCurrentActiveCoinsData(result)
+
+        console.log(currentActiveCoinsList)
+        console.log(currentActiveCoinData)
+
+
+    }, [uniqueCoinNames])
+
 
     useEffect(() => {
         console.log(`The User is now ${isIdle ? 'Idle' : 'Not Idle'}`)
@@ -67,7 +174,7 @@ function ChartsPage() {
             // Reconnect the websocket
             // console.log('Reconnecting the WebSocket connection');
             if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
-                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=${list}`);
+                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
                 webSocketRef.onerror = (event) => {
                     console.error(event);
                     console.error('There is somethiing wrong when setting up a connection to the real time data!!')
@@ -82,10 +189,9 @@ function ChartsPage() {
                 };
             }
         }
-    }, [isIdle, list]);
+    }, [isIdle, currentActiveCoinsList]);
 
 
-    console.log(tim)
 
 
     useEffect(() => {
@@ -147,16 +253,17 @@ function ChartsPage() {
                 <h1>Real Time Data</h1>
                 <div className='inner'>
                     <div className='inner-inner-first'></div>
-                    {list.map((x) => {
-                        // filter the tim state array to only include the data with the current x value
-                        const filteredTim = tim.filter(item => JSON.parse(item.data)[x]);
+                    {
+                        Object.keys(currentActiveCoinData).map(key => {
+                            // do something with each key here
+                            return (
+                                <Suspense fallback={<div>Loading chart...</div>}>
+                                    <IndividualCharts key={key} currentCoin={key} currentActiveCoinDataIndividual={currentActiveCoinData[key]}></IndividualCharts>
+                                </Suspense>
+                            )
+                        })
+                    }
 
-                        return (
-                            <Suspense fallback={<div>Loading chart...</div>}>
-                                <IndividualCharts currentCoin={x} tim={filteredTim}></IndividualCharts>
-                            </Suspense>
-                        );
-                    })}
                 </div>
             </div>
         </div>
