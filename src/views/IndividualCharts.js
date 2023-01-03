@@ -48,7 +48,7 @@ function IndividualCharts({ currentCoin, currentActiveCoinDataIndividual }) {
         };
         const dataPoints = currentActiveCoinDataIndividual.map(item => (item.value));
 
-        console.log(currentActiveCoinDataIndividual[0].timeStampCharting)
+        // console.log(currentActiveCoinDataIndividual[0].timeStampCharting)
 
         const labels = currentActiveCoinDataIndividual.slice(-10).map(item => item.timeStampCharting.slice(11));
         const slicedDataPoints = dataPoints.slice(-10);

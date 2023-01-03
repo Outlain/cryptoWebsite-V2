@@ -62,7 +62,7 @@ function ChartsPage() {
 
     useEffect(() => {
         try {
-            if (webSocketRef.current.readyState === WebSocket.CLOSED) {
+            if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
                 webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
             }
             if (webSocketRef.current.readyState === WebSocket.OPEN) {
@@ -123,7 +123,7 @@ function ChartsPage() {
             }
         } catch (error) {
             console.log(error)
-            if (webSocketRef.current.readyState === WebSocket.CLOSED) {
+            if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
                 webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
             }
 
@@ -157,8 +157,8 @@ function ChartsPage() {
 
         setCurrentActiveCoinsData(result)
 
-        console.log(currentActiveCoinsList)
-        console.log(currentActiveCoinData)
+        // console.log(currentActiveCoinsList)
+        // console.log(currentActiveCoinData)
 
 
     }, [uniqueCoinNames])
@@ -181,11 +181,13 @@ function ChartsPage() {
                     // Handle possible websockeet errors 
                 };
                 webSocketRef.current.onmessage = function (msg) {
-                    const currentDate = new Date();
-                    const timestamp = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
-                    const dataWithTimestamp = { data: msg.data, timestamp };
-
+                    const timeStampObjectData = new Date()
+                    const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
+                    const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
+        
                     setTim((prevTim) => [...prevTim, dataWithTimestamp]);
+        
+                    // console.log(msg.data)
                 };
             }
         }
