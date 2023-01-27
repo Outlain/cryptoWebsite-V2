@@ -22,6 +22,19 @@ function ChartsPage() {
     const [currentActiveCoinsList, setCurrentActiveCoinsList] = useState([]);
     const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
 
+    // useEffect(() => {
+    //     console.log('tim')
+    //     console.log(tim)
+    //     console.log('uniqueCoinNames')
+    //     console.log(uniqueCoinNames)
+    //     console.log('currentActiveCoinsList')
+    //     console.log(currentActiveCoinsList)
+    //     console.log('currentActiveCoinData')
+    //     console.log(currentActiveCoinData)
+
+    // }, [tim, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData]);
+
+
     useEffect(() => {
         if (!webSocketRef.current) {
             // create the WebSocket connection if it doesn't already exist
@@ -184,9 +197,9 @@ function ChartsPage() {
                     const timeStampObjectData = new Date()
                     const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
                     const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
-        
+
                     setTim((prevTim) => [...prevTim, dataWithTimestamp]);
-        
+
                     // console.log(msg.data)
                 };
             }
