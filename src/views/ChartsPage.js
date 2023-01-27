@@ -21,18 +21,21 @@ function ChartsPage() {
     const [uniqueCoinNames, setUniqueCoinNames] = useState([]);
     const [currentActiveCoinsList, setCurrentActiveCoinsList] = useState([]);
     const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
+    const [currentDeleting, setCurrentDeleting] = useState([]);
 
-    // useEffect(() => {
-    //     console.log('tim')
-    //     console.log(tim)
-    //     console.log('uniqueCoinNames')
-    //     console.log(uniqueCoinNames)
-    //     console.log('currentActiveCoinsList')
-    //     console.log(currentActiveCoinsList)
-    //     console.log('currentActiveCoinData')
-    //     console.log(currentActiveCoinData)
+    useEffect(() => {
+        console.log('tim')
+        console.log(tim)
+        console.log('uniqueCoinNames')
+        console.log(uniqueCoinNames)
+        console.log('currentActiveCoinsList')
+        console.log(currentActiveCoinsList)
+        console.log('currentActiveCoinData')
+        console.log(currentActiveCoinData)
+        console.log('currentDeleting')
+        console.log(currentDeleting)
 
-    // }, [tim, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData]);
+    }, [tim, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
 
 
     useEffect(() => {
@@ -164,6 +167,11 @@ function ChartsPage() {
                         timeStampObject: obj.timeStampObject,
                         timeStampCharting: obj.timeStampCharting
                     })
+                    if (result[key].length > 12) {
+                        let extra = result[key].length - 12
+                        setCurrentDeleting([...currentDeleting, {key: key, value: result[key].slice(0, extra)}])
+                        result[key] = result[key].slice(extra, result[key].length)
+                    }
                 }
             })
         })
