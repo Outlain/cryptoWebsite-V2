@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef, Suspense, lazy, useMemo } from 'react'
 
 import Navigation from './Navigation.js';
-const IndividualCharts = lazy(() => import('./IndividualCharts'));
+const IndividualCharts = lazy(() => import('./IndividualCharts.js'));
 
 function ChartsPage() {
 

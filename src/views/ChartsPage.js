@@ -2,6 +2,7 @@ import { React, useState, useEffect, useRef, Suspense, lazy, useMemo } from 'rea
 
 import Navigation from './Navigation.js';
 const IndividualCharts = lazy(() => import('./IndividualCharts'));
+const TopTradedChart = lazy(() => import('./TopTradedChart.js'));
 
 function ChartsPage() {
 
@@ -22,18 +23,19 @@ function ChartsPage() {
     const [currentActiveCoinsList, setCurrentActiveCoinsList] = useState([]);
     const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
     const [currentDeleting, setCurrentDeleting] = useState([]);
+    const [topActiveCoinData, setTopActiveCoinData] = useState([]);
 
     useEffect(() => {
         console.log('messageArray')
         console.log(messageArray)
-        console.log('uniqueCoinNames')
-        console.log(uniqueCoinNames)
-        console.log('currentActiveCoinsList')
-        console.log(currentActiveCoinsList)
-        console.log('currentActiveCoinData')
-        console.log(currentActiveCoinData)
-        console.log('currentDeleting')
-        console.log(currentDeleting)
+        // console.log('uniqueCoinNames')
+        // console.log(uniqueCoinNames)
+        // console.log('currentActiveCoinsList')
+        // console.log(currentActiveCoinsList)
+        // console.log('currentActiveCoinData')
+        // console.log(currentActiveCoinData)
+        // console.log('currentDeleting')
+        // console.log(currentDeleting)
 
     }, [messageArray, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
 
@@ -45,20 +47,27 @@ function ChartsPage() {
             webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
 
             webSocketRef.onerror = (event) => {
-                 // Handle possible websockeet errors 
+                // Handle possible websockeet errors 
                 console.error(event);
                 console.error('There is somethiing wrong when setting up a connection to the real time data!!')
             };
         }
         // Handleling what happens on each message the Websocket sends
         webSocketRef.current.onmessage = function (msg) {
-            // Getting Currentim so that each message will have a timestamp for the line chart the data will be put in
+            // Getting Current time so that each message will have a timestamp
             const timeStampObjectData = new Date()
+            // Getting the timestamp for the Chart 
             const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
+            // Combining the Websocket date with the timestamp and formated timestamp for the charting
             const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
-
-            setMessageArray((PreviousMessageArray) => [...PreviousMessageArray, dataWithTimestamp]);
-
+            // Adding the current Message Data with both timestamps to the previous Message Array
+            setMessageArray((PreviousMessageArray) => {
+                let updatedMessageArray = [...PreviousMessageArray, dataWithTimestamp];
+                if (updatedMessageArray.length > 100) { // Keep only the last 100 data points
+                    updatedMessageArray = updatedMessageArray.slice(1); // This removes the oldest data point
+                }
+                return updatedMessageArray;
+            });
             // console.log(msg.data)
         };
 
@@ -96,7 +105,6 @@ function ChartsPage() {
                         const coinOnlyData = JSON.parse(datum.data);
                         const coinDateObjectUnix = datum.timeStampObject.getTime()
 
-                        // const pastTimeStamp
                         // Get the keys of the coinOnlyData object (these are the coin names)
                         const onlyCoinNames = Object.keys(coinOnlyData);
 
@@ -115,21 +123,21 @@ function ChartsPage() {
                                     // Reset the count for the coin
                                     uniqueCoinNamesObject[coinName].cacheCount = 1;
                                 }
-                                // Increment the total count for the coin
+                                // Increment the total count for the coin (this is differnt from the cache count as that count resets every 30 seconds and this one never resets)
                                 uniqueCoinNamesObject[coinName].totalCount++;
                             } else {
-                                // Add the coin to the uniqueCoinNamesObject object with a count of 1 and a total count of 1
+                                // If the current coin is not already in the coin object then add the coin to the uniqueCoinNamesObject object with a count of 1 and a total count of 1
                                 uniqueCoinNamesObject[coinName] = { cacheCount: 1, totalCount: 1 };
                             }
                         }
                     }
 
-                    // Convert the object to an array of objects
+                    // Changes the format from a gaint object withe the object keys being the coin name with cache count and total count into a new giant Array of obejcts each with a value for the coin name cahcec ount and total count respectavely to make the data easier to work with
                     let uniqueCoinNamesObjectArray = Object.entries(uniqueCoinNamesObject).map(([coinName, { cacheCount, totalCount }]) => ({ coinName, cacheCount, totalCount }));
 
                     // Sort the array by the count in descending order
                     uniqueCoinNamesObjectArray.sort((a, b) => b.cacheCount - a.cacheCount);
-
+                    // Getting rid of anything past 38 coins
                     uniqueCoinNamesObjectArray = uniqueCoinNamesObjectArray.slice(0, 38)
                     // Return the sorted array
                     return uniqueCoinNamesObjectArray;
@@ -172,7 +180,7 @@ function ChartsPage() {
                     })
                     if (result[key].length > 12) {
                         let extra = result[key].length - 12
-                        setCurrentDeleting([...currentDeleting, {key: key, value: result[key].slice(0, extra)}])
+                        setCurrentDeleting([...currentDeleting, { key: key, value: result[key].slice(0, extra) }])
                         result[key] = result[key].slice(extra, result[key].length)
                     }
                 }
@@ -187,6 +195,29 @@ function ChartsPage() {
 
     }, [uniqueCoinNames])
 
+
+    useEffect(() => {
+        // Get the names of the top  active coins
+        const topCoins = uniqueCoinNames.slice(0, 4).map(coinData => coinData.coinName);
+
+        // Get the data for these 4 coins
+        const topCoinData = topCoins.map(coinName => {
+            return {
+                coinName: coinName,
+                data: currentActiveCoinData[coinName],
+            };
+        });
+
+        if (
+            topCoinData.length === 4 &&
+            topCoinData.every(coinData => coinData.data && coinData.data.length >= 2)
+        ) {
+            setTopActiveCoinData(topCoinData);
+        }
+    }, [uniqueCoinNames, currentActiveCoinData]);
+
+
+    // WORKING ON TURNING WEBSOCKET ON AND OFF BASED ON USER INTERACTIVITY FROM HERE ON DOWN!!!!
 
     useEffect(() => {
         console.log(`The User is now ${isIdle ? 'Idle' : 'Not Idle'}`)
@@ -209,9 +240,14 @@ function ChartsPage() {
                     const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
                     const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
 
-                    setMessageArray((PreviousMessageArray) => [...PreviousMessageArray, dataWithTimestamp]);
-
-                    // console.log(msg.data)
+                    setMessageArray((PreviousMessageArray) => {
+                        let updatedMessageArray = [...PreviousMessageArray, dataWithTimestamp];
+                        if (updatedMessageArray.length > 100) { // Keep only the last 100 data points
+                            updatedMessageArray = updatedMessageArray.slice(1); // This removes the oldest data point
+                        }
+                        return updatedMessageArray;
+                    });
+                    console.log(msg.data)
                 };
             }
         }
@@ -278,7 +314,10 @@ function ChartsPage() {
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
                 <div className='inner'>
-                    <div className='inner-inner-first'></div>
+                    {topActiveCoinData.length === 4 &&
+                        topActiveCoinData.every(coinData => coinData.data.length >= 2) && (
+                            <TopTradedChart coinData={topActiveCoinData} />
+                        )}
                     {
                         Object.keys(currentActiveCoinData).map(key => {
                             // do something with each key here
