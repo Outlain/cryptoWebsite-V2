@@ -17,15 +17,15 @@ function ChartsPage() {
 
 
     const webSocketRef = useRef(null);
-    const [tim, setTim] = useState([]);
+    const [messageArray, setMessageArray] = useState([]);
     const [uniqueCoinNames, setUniqueCoinNames] = useState([]);
     const [currentActiveCoinsList, setCurrentActiveCoinsList] = useState([]);
     const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
     const [currentDeleting, setCurrentDeleting] = useState([]);
 
     useEffect(() => {
-        console.log('tim')
-        console.log(tim)
+        console.log('messageArray')
+        console.log(messageArray)
         console.log('uniqueCoinNames')
         console.log(uniqueCoinNames)
         console.log('currentActiveCoinsList')
@@ -35,26 +35,29 @@ function ChartsPage() {
         console.log('currentDeleting')
         console.log(currentDeleting)
 
-    }, [tim, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
+    }, [messageArray, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
 
 
     useEffect(() => {
+        // Checking if the websocket is active before starting the websocket connection
         if (!webSocketRef.current) {
             // create the WebSocket connection if it doesn't already exist
             webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
 
             webSocketRef.onerror = (event) => {
+                 // Handle possible websockeet errors 
                 console.error(event);
                 console.error('There is somethiing wrong when setting up a connection to the real time data!!')
-                // Handle possible websockeet errors 
             };
         }
+        // Handleling what happens on each message the Websocket sends
         webSocketRef.current.onmessage = function (msg) {
+            // Getting Currentim so that each message will have a timestamp for the line chart the data will be put in
             const timeStampObjectData = new Date()
             const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
             const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
 
-            setTim((prevTim) => [...prevTim, dataWithTimestamp]);
+            setMessageArray((PreviousMessageArray) => [...PreviousMessageArray, dataWithTimestamp]);
 
             // console.log(msg.data)
         };
@@ -132,7 +135,7 @@ function ChartsPage() {
                     return uniqueCoinNamesObjectArray;
                 }
 
-                setUniqueCoinNames(getUniqueCoinNames(tim))
+                setUniqueCoinNames(getUniqueCoinNames(messageArray))
                 // console.log(uniqueCoinNames)
             } else {
                 console.error(`The current Websocket Connection is not active ${webSocketRef.current}`)
@@ -144,7 +147,7 @@ function ChartsPage() {
             }
 
         }
-    }, [tim])
+    }, [messageArray])
 
     useEffect(() => {
         const holding = uniqueCoinNames.map(elements => {
@@ -155,7 +158,7 @@ function ChartsPage() {
 
         const result = {}
 
-        tim.forEach(obj => {
+        messageArray.forEach(obj => {
             const data = JSON.parse(obj.data)
             Object.keys(data).forEach(key => {
                 if (currentActiveCoinsList.includes(key)) {
@@ -206,7 +209,7 @@ function ChartsPage() {
                     const timeStampCharting = `${timeStampObjectData.toLocaleDateString()} ${timeStampObjectData.toLocaleTimeString()}`;
                     const dataWithTimestamp = { data: msg.data, timeStampObject: timeStampObjectData, timeStampCharting: timeStampCharting };
 
-                    setTim((prevTim) => [...prevTim, dataWithTimestamp]);
+                    setMessageArray((PreviousMessageArray) => [...PreviousMessageArray, dataWithTimestamp]);
 
                     // console.log(msg.data)
                 };
