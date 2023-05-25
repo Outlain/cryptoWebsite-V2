@@ -1,26 +1,34 @@
-import { React, useState, useEffect } from 'react'
-// import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend } from 'chart.js';
-// import { Line } from 'react-chartjs-2';
-// ChartJS.register(
-//     CategoryScale,
-//     LinearScale,
-//     PointElement,
-//     LineElement,
-//     Title,
-//     Tooltip,
-//     Filler,
-//     Legend
-// );
+import React, { useEffect, useState } from 'react';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Filler,
+    Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Filler,
+    Legend
+);
 
 function TopTradedChart({ coinData }) {
-    const [percentObject, setPercentObject] = useState({})
+    const [percentObject, setPercentObject] = useState([]);
 
     useEffect(() => {
-        console.log(coinData)
-        console.log(percentObject)
-    }, [coinData])
-
+        setPercentObject(convertToPercentChange(coinData));
+    }, [coinData]);
 
     function convertToPercentChange(data) {
         return data.map(coin => {
@@ -33,24 +41,35 @@ function TopTradedChart({ coinData }) {
         });
     }
 
-    useEffect(() => {
-        setPercentObject(convertToPercentChange(coinData));
-    }, [coinData])
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        },
+    };
 
-    try {
-        // throw new Error('Debugging error');  // manually throw an error
+    // Assumption: all coin data arrays have the same number of elements
+    const labels = percentObject[0]?.data.map(item => item.timeStampCharting.slice(12)) || [];
 
+    const data = {
+        labels: labels,
+        datasets: percentObject.map((coin, index) => ({
+            label: coin.coinName.charAt(0).toUpperCase() + coin.coinName.slice(1),
+            data: coin.data.map(item => item.value),
+            borderColor: `hsl(${index * 90}, 70%, 50%)`,
+            backgroundColor: `hsla(${index * 90}, 70%, 50%, 0.2)`,
+            fill: true
+        }))
+    };
 
-
-        return (
-            <div className="inner-inner-first"></div>
-        );
-    } catch (error) {
-
-        return (
-            <div className="inner-inner-first">Loading ..... </div>
-        );
-    }
+    return (
+        <div className="inner-inner-first">
+            <div className='chart'><Line options={options} data={data} height="100%" /></div>
+        </div>
+    );
 }
 
 export default TopTradedChart;
