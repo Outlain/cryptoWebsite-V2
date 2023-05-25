@@ -28,7 +28,7 @@ function TopTradedChart({ coinData }) {
 
     useEffect(() => {
         setPercentObject(convertToPercentChange(coinData));
-        console.log(percentObject)
+        // console.log(percentObject)
     }, [coinData]);
 
     function convertToPercentChange(data) {

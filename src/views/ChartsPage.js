@@ -26,8 +26,8 @@ function ChartsPage() {
     const [topActiveCoinData, setTopActiveCoinData] = useState([]);
 
     useEffect(() => {
-        console.log('messageArray')
-        console.log(messageArray)
+        // console.log('messageArray')
+        // console.log(messageArray)
         // console.log('uniqueCoinNames')
         // console.log(uniqueCoinNames)
         // console.log('currentActiveCoinsList')
@@ -247,7 +247,7 @@ function ChartsPage() {
                         }
                         return updatedMessageArray;
                     });
-                    console.log(msg.data)
+                    // console.log(msg.data)
                 };
             }
         }
@@ -306,6 +306,12 @@ function ChartsPage() {
 
     // console.log(tim, list)
 
+    const closeConnection = () => {
+        if (webSocketRef.current && webSocketRef.current.readyState !== WebSocket.CLOSED) {
+            webSocketRef.current.close();
+        }
+        console.log("Close Connection button clicked. Live feed stopped. WebSocket connection closed.");
+    }
 
 
     return (
@@ -313,6 +319,9 @@ function ChartsPage() {
             <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
+                <div className='div-button'><button onClick={() => closeConnection()}>Stop Live Feed</button>
+
+</div>
                 <div className='inner'>
                     {topActiveCoinData.length === 4 &&
                         topActiveCoinData.every(coinData => coinData.data.length >= 2) && (
@@ -331,7 +340,7 @@ function ChartsPage() {
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
