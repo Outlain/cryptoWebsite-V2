@@ -28,6 +28,7 @@ function TopTradedChart({ coinData }) {
 
     useEffect(() => {
         setPercentObject(convertToPercentChange(coinData));
+        console.log(percentObject)
     }, [coinData]);
 
     function convertToPercentChange(data) {
@@ -52,7 +53,7 @@ function TopTradedChart({ coinData }) {
     };
 
     // Assumption: all coin data arrays have the same number of elements
-    const labels = percentObject[0]?.data.map(item => item.timeStampCharting.slice(12)) || [];
+    const labels = percentObject[0]?.data.map(item => item.timeStampCharting.slice(10)) || [];
 
     const data = {
         labels: labels,
@@ -67,7 +68,7 @@ function TopTradedChart({ coinData }) {
 
     return (
         <div className="inner-inner-first">
-            <div className='chart'><Line options={options} data={data} height="100%" /></div>
+            <Line options={options} data={data} height="100%" width="100%" />
         </div>
     );
 }

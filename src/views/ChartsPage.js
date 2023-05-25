@@ -178,8 +178,8 @@ function ChartsPage() {
                         timeStampObject: obj.timeStampObject,
                         timeStampCharting: obj.timeStampCharting
                     })
-                    if (result[key].length > 12) {
-                        let extra = result[key].length - 12
+                    if (result[key].length > 15) {
+                        let extra = result[key].length - 15
                         setCurrentDeleting([...currentDeleting, { key: key, value: result[key].slice(0, extra) }])
                         result[key] = result[key].slice(extra, result[key].length)
                     }
