@@ -24,34 +24,30 @@ function ChartsPage() {
     const [currentActiveCoinData, setCurrentActiveCoinsData] = useState([]);
     const [currentDeleting, setCurrentDeleting] = useState([]);
     const [topActiveCoinData, setTopActiveCoinData] = useState([]);
+    const [isWebSocketActive, setWebSocketActive] = useState(false);
 
-    useEffect(() => {
-        // console.log('messageArray')
-        // console.log(messageArray)
-        // console.log('uniqueCoinNames')
-        // console.log(uniqueCoinNames)
-        // console.log('currentActiveCoinsList')
-        // console.log(currentActiveCoinsList)
-        // console.log('currentActiveCoinData')
-        // console.log(currentActiveCoinData)
-        // console.log('currentDeleting')
-        // console.log(currentDeleting)
+    // useEffect(() => {
+    // console.log('messageArray')
+    // console.log(messageArray)
+    // console.log('uniqueCoinNames')
+    // console.log(uniqueCoinNames)
+    // console.log('currentActiveCoinsList')
+    // console.log(currentActiveCoinsList)
+    // console.log('currentActiveCoinData')
+    // console.log(currentActiveCoinData)
+    // console.log('currentDeleting')
+    // console.log(currentDeleting)
 
-    }, [messageArray, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
+    // }, [messageArray, uniqueCoinNames, currentActiveCoinsList, currentActiveCoinData, currentDeleting]);
 
+    const openingWebsocketLogic = () => {
+        webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
 
-    useEffect(() => {
-        // Checking if the websocket is active before starting the websocket connection
-        if (!webSocketRef.current) {
-            // create the WebSocket connection if it doesn't already exist
-            webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
-
-            webSocketRef.onerror = (event) => {
-                // Handle possible websockeet errors 
-                console.error(event);
-                console.error('There is somethiing wrong when setting up a connection to the real time data!!')
-            };
-        }
+        webSocketRef.onerror = (event) => {
+            // Handle possible websockeet errors 
+            console.error(event);
+            console.error('There is somethiing wrong when setting up a connection to the real time data!!')
+        };
         // Handleling what happens on each message the Websocket sends
         webSocketRef.current.onmessage = function (msg) {
             // Getting Current time so that each message will have a timestamp
@@ -69,13 +65,27 @@ function ChartsPage() {
                 return updatedMessageArray;
             });
             // console.log(msg.data)
-        };
+        }
+    }
 
+    useEffect(() => {
+        // Checking if the websocket is active before starting the websocket connection
+        if (!webSocketRef.current) {
+            openingWebsocketLogic();
+        }
         document.addEventListener('visibilitychange', () => {
             handleIdleChange(document.hidden);
         });
+        // Setting Interval that will update a vaiable based on websocket connection and use this later to update connection button
+        const interval = setInterval(() => {
+            if (webSocketRef.current) {
+                setWebSocketActive(webSocketRef.current.readyState <= 1);
+            }
+        }, 1000); // Check every second
 
         return () => {
+            clearInterval(interval);
+
             // close the WebSocket connection when the component unmounts
             try {
                 document.removeEventListener('visibilitychange', () => {
@@ -90,9 +100,9 @@ function ChartsPage() {
 
     useEffect(() => {
         try {
-            if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
-                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
-            }
+            // if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
+            //     openingWebsocketLogic()
+            // }
             if (webSocketRef.current.readyState === WebSocket.OPEN) {
 
                 function getUniqueCoinNames(data) {
@@ -145,15 +155,9 @@ function ChartsPage() {
 
                 setUniqueCoinNames(getUniqueCoinNames(messageArray))
                 // console.log(uniqueCoinNames)
-            } else {
-                console.error(`The current Websocket Connection is not active ${webSocketRef.current}`)
             }
         } catch (error) {
             console.log(error)
-            if (webSocketRef.current.readyState === WebSocket.CLOSED || !webSocketRef.current) {
-                webSocketRef.current = new WebSocket(`wss://ws.coincap.io/prices?assets=ALL`);
-            }
-
         }
     }, [messageArray])
 
@@ -163,9 +167,7 @@ function ChartsPage() {
         })
         setCurrentActiveCoinsList(holding)
 
-
         const result = {}
-
         messageArray.forEach(obj => {
             const data = JSON.parse(obj.data)
             Object.keys(data).forEach(key => {
@@ -199,7 +201,6 @@ function ChartsPage() {
     useEffect(() => {
         // Get the names of the top  active coins
         const topCoins = uniqueCoinNames.slice(0, 4).map(coinData => coinData.coinName);
-
         // Get the data for these 4 coins
         const topCoinData = topCoins.map(coinName => {
             return {
@@ -207,7 +208,6 @@ function ChartsPage() {
                 data: currentActiveCoinData[coinName],
             };
         });
-
         if (
             topCoinData.length === 4 &&
             topCoinData.every(coinData => coinData.data && coinData.data.length >= 2)
@@ -217,7 +217,7 @@ function ChartsPage() {
     }, [uniqueCoinNames, currentActiveCoinData]);
 
 
-    // WORKING ON TURNING WEBSOCKET ON AND OFF BASED ON USER INTERACTIVITY FROM HERE ON DOWN!!!!
+    // WORKING ON TURNING WEBSOCKET ON AND OFF BASED ON USER INTERACTIVITY/IDLE FROM HERE ON DOWN!!!!
 
     useEffect(() => {
         console.log(`The User is now ${isIdle ? 'Idle' : 'Not Idle'}`)
@@ -306,11 +306,20 @@ function ChartsPage() {
 
     // console.log(tim, list)
 
-    const closeConnection = () => {
+    const buttonCloseConnection = () => {
+        // console.log(webSocketRef.current);
         if (webSocketRef.current && webSocketRef.current.readyState !== WebSocket.CLOSED) {
             webSocketRef.current.close();
         }
         console.log("Close Connection button clicked. Live feed stopped. WebSocket connection closed.");
+        // console.log(webSocketRef.current);
+    }
+
+    const buttonOpenConnection = () => {
+        // console.log(webSocketRef.current);
+        openingWebsocketLogic()
+        console.log("Open Connection button clicked. Live feed Restarted. WebSocket connection Open.");
+        // console.log(webSocketRef.current);
     }
 
 
@@ -319,9 +328,13 @@ function ChartsPage() {
             <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
-                <div className='div-button'><button onClick={() => closeConnection()}>Stop Live Feed</button>
+                <div className='div-button'>
+                    {isWebSocketActive ?
 
-</div>
+                        (<button onClick={() => buttonCloseConnection()}>WebData Currently Active: Click to turn off</button>) :
+                        (<button onClick={() => buttonOpenConnection()}>WebData Currently Off Click to turn on</button>)
+                    }
+                </div>
                 <div className='inner'>
                     {topActiveCoinData.length === 4 &&
                         topActiveCoinData.every(coinData => coinData.data.length >= 2) && (
@@ -340,7 +353,7 @@ function ChartsPage() {
 
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 
