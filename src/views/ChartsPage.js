@@ -323,34 +323,34 @@ function ChartsPage() {
 
 
     return (
-            <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
-                <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
-                <h1>Real Time Data</h1>
-                <div className='div-button'>
-                    {isWebSocketActive ?
+        <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
+            <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
+            <h1>Real Time Data</h1>
+            <div className='div-button'>
+                {isWebSocketActive ?
 
-                        (<button className='stop' onClick={() => buttonCloseConnection()}>Click To Stop</button>) :
-                        (<button className='start' onClick={() => buttonOpenConnection()}>Click To Restart Live Crypto Trades</button>)
-                    }
-                </div>
-                <div className='inner'>
-                    {topActiveCoinData.length === 4 &&
-                        topActiveCoinData.every(coinData => coinData.data.length >= 2) && (
-                            <TopTradedChart coinData={topActiveCoinData} />
-                        )}
-                    {
-                        Object.keys(currentActiveCoinData).map(key => {
-                            // do something with each key here
-                            return (
-                                <Suspense fallback={<div>Loading chart...</div>}>
-                                    <IndividualCharts key={key} currentCoin={key} currentActiveCoinDataIndividual={currentActiveCoinData[key]}></IndividualCharts>
-                                </Suspense>
-                            )
-                        })
-                    }
-
-                </div>
+                    (<button className='stop' onClick={() => buttonCloseConnection()}>Click To Stop</button>) :
+                    (<button className='start' onClick={() => buttonOpenConnection()}>Click To Restart Live Crypto Trades</button>)
+                }
             </div>
+            <div className='inner'>
+                {topActiveCoinData.length === 4 &&
+                    topActiveCoinData.every(coinData => coinData.data.length >= 2) && (
+                        <TopTradedChart coinData={topActiveCoinData} />
+                    )}
+                {
+                    Object.keys(currentActiveCoinData).map(key => {
+                        // do something with each key here
+                        return (
+                            <Suspense fallback={<div>Loading chart...</div>}>
+                                <IndividualCharts key={key} currentCoin={key} currentActiveCoinDataIndividual={currentActiveCoinData[key]}></IndividualCharts>
+                            </Suspense>
+                        )
+                    })
+                }
+
+            </div>
+        </div>
     );
 }
 

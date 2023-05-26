@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { Chart } from "react-google-charts";
+import Navigation from './Navigation.js';
 
 
 const FearAndGreedIndex = () => {
     const [indexData, setIndexData] = useState(null);
-
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    const handleNavToggle = (newValue) => {
+        setIsNavOpen(newValue);
+    }
     useEffect(() => {
         const optionsBackUp = {
             method: 'GET',
@@ -38,6 +42,8 @@ const FearAndGreedIndex = () => {
 
     return (
         <div className="news">
+            <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
+
             <div className="news-top">
                 {indexData ? (
                     <div className="fear-greed">
