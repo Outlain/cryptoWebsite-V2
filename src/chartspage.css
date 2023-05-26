@@ -178,10 +178,10 @@
   .inner {
     /* max-width: 90vw; */
     /* background-color: rgba(0, 0, 0, 0.1); */
-    padding: 0rem;
-    margin: 0rem;
+    padding: 1rem;
+    /* margin: 1rem; */
     display: grid;
-    grid-template-columns: repeat(2, minmax(50vw, 50vw));
+    grid-template-columns: repeat(2, minmax(45vw, 45vw));
     /* background-color: red; */
     gap: 0.2rem;
   }
