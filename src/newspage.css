@@ -1,0 +1,44 @@
+.news {
+  height: 100vh;
+  width: 100vw;
+}
+
+.news-top {
+  height: 65%;
+  width: 100vw;
+  /* background-color: red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-bottom {
+  height: 35%;
+  width: 100vw;
+  background-color: darkblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.fear-greed {
+  /* background-color: white; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fear-greed div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-bottom div {
+  height: 50%;
+  width: 93vw;
+  background-color: white;
+}

@@ -37,7 +37,7 @@ function Navigation(props) {
                     <li><a href="https://carlosamadoroller.com" ><LogoIcon /><span>Created By : <br /> Carlos <br /> Amado Roller</span></a></li>
                     <li><a href="/"><HomeIcon /><span>Back to  <br /> Crypto Home</span></a></li>
                     <li><a href="#Home"><ChartIcon /><span>Visit  <br />  Crypto Analytics</span></a></li>
-                    <li><a href="#Home"><NewsIcon /><span>Visit  <br />  Crypto News</span></a></li>
+                    <li><a href="/News"><NewsIcon /><span>Visit  <br />  Crypto News</span></a></li>
                 </ul>
             )}
         </nav>

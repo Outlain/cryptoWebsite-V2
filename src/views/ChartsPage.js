@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef, Suspense, lazy, useMemo } from 'react'
+import { React, useState, useEffect, useRef, Suspense, lazy } from 'react'
 
 import Navigation from './Navigation.js';
 const IndividualCharts = lazy(() => import('./IndividualCharts'));
@@ -323,7 +323,6 @@ function ChartsPage() {
 
 
     return (
-        // <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
             <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
@@ -352,7 +351,6 @@ function ChartsPage() {
 
                 </div>
             </div>
-        // </div>
     );
 }
 
