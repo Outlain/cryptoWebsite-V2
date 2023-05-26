@@ -208,11 +208,22 @@
   .div-button button {
     width: 77%;
   }
+  .nav-nav-closed {
+    height: 2rem;
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 2vh;
+    left: 0vw;
+    margin-top: -1rem;
+  }
 }
 /* Full Size WebPage */
 /* NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  NAVIGATION OPEN  */
 #navbar {
-  z-index: 5;
+  z-index: 500;
 }
 
 .main-nav-open {
@@ -231,7 +242,7 @@
 }
 
 button {
-  z-index: 100;
+  z-index: 5;
 }
 
 .nav-nav-open {
@@ -311,4 +322,18 @@ button {
   color: rgb(212, 188, 188);
   text-align: center;
 }
-/* CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE CHARTS PAGE  */
+@media screen and (max-width: 700px) {
+  .nav-nav-open {
+    height: 10vh;
+    width: 55vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 2%;
+    left: 5vw;
+    /* background-color: rgba(127, 84, 56, 0.5); */
+    margin-top: -7vh;
+  }
+
+}
