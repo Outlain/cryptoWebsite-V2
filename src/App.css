@@ -485,10 +485,12 @@ button {
     font-size: 1.8rem;
   }
   .landingpage-button {
-    margin: 0vh;
+    margin-top: 1.5vh;
     margin-right: 0;
   }
   .landingpage-paragraph {
+    padding: 0.5vh 0vh;
+    margin: 0.5vh 0vh;
     font-size: 1.1rem;
   }
   .landingpage button {
