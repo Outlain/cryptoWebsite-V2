@@ -1,4 +1,5 @@
-import './App.css';
+import './Landingpage.css';
+import './chartspage.css';
 // import Navigation from './views/Navigation';
 // import { React, useState } from 'react'
 import ChartsPage from './views/ChartsPage.js';
