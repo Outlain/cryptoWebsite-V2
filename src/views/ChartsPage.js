@@ -324,15 +324,15 @@ function ChartsPage() {
 
 
     return (
-        <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
+        // <div className={isNavOpen ? 'App-nav-open' : 'App-nav-closed'} >
             <div className={isNavOpen ? 'main-nav-open' : 'main-nav-closed'}>
                 <Navigation isNavOpen={isNavOpen} onToggle={handleNavToggle} />
                 <h1>Real Time Data</h1>
                 <div className='div-button'>
                     {isWebSocketActive ?
 
-                        (<button onClick={() => buttonCloseConnection()}>WebData Currently Active: Click to turn off</button>) :
-                        (<button onClick={() => buttonOpenConnection()}>WebData Currently Off Click to turn on</button>)
+                        (<button className='stop' onClick={() => buttonCloseConnection()}>Click To Stop</button>) :
+                        (<button className='start' onClick={() => buttonOpenConnection()}>Click To Restart Live Crypto Trades</button>)
                     }
                 </div>
                 <div className='inner'>
@@ -353,7 +353,7 @@ function ChartsPage() {
 
                 </div>
             </div>
-        </div>
+        // </div>
     );
 }
 
