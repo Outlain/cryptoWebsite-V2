@@ -326,7 +326,6 @@ button {
   align-items: flex-end;
   text-align: center;
   font-size: 2.7rem;
-  margin-bottom: 3vh;
 }
 .landingpage-paragraph {
   grid-column: 2/7;
@@ -336,12 +335,14 @@ button {
   width: 100%;
   overflow: auto;
   text-align: justify;
+  padding: 1vh 0vh;
+  margin: 1vh 0vh;
+  font-size: 1.35rem;
+  color: rgb(248, 245, 252);
 }
 
 .landingpage-paragraph p {
   padding: 0.5rem;
-  font-size: 1.35rem;
-  color: rgb(248, 245, 252);
 }
 .landingpage-button1 {
   grid-column: 2;
@@ -354,6 +355,9 @@ button {
 .landingpage-button3 {
   grid-column: 6;
   grid-row: 3;
+}
+.landingpage-button {
+  margin-top: 1vh;
 }
 .landingpage button {
   height: 100%;
@@ -392,4 +396,105 @@ button {
 .landingpage a:hover {
   transform: scale(1.2);
   cursor: pointer;
+}
+
+/*  First Screen Min */
+@media only screen and (max-width: 1300px) {
+  .landingpage {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("./img/cryptoLandingPage.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.3fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.3fr)
+      minmax(0, 1.5fr)
+      minmax(0, 5.8fr);
+    grid-template-rows:
+      minmax(0, 2.8fr)
+      minmax(0, 3fr)
+      minmax(0, 0.8fr)
+      minmax(0, 2fr);
+  }
+  .landingpage-button {
+    margin-top: 2vh;
+  }
+  .landingpage-paragraph {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .landingpage {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("./img/cryptoLandingPage.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 0.15fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.3fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.3fr)
+      minmax(0, 1.5fr)
+      minmax(0, 4.25fr);
+    grid-template-rows:
+      minmax(0, 2.8fr)
+      minmax(0, 3fr)
+      minmax(0, 0.8fr)
+      minmax(0, 2fr);
+  }
+  .landingpage h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .landingpage {
+    height: 100vh;
+    width: 100vw;
+    background-image: url("./img/cryptoLandingPage.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns:
+      minmax(0, 0.15fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.08fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.08fr)
+      minmax(0, 1.5fr)
+      minmax(0, 0.15fr);
+    grid-template-rows:
+      minmax(0, 2fr)
+      minmax(0, 3.5fr)
+      minmax(0, 0.9fr)
+      minmax(0, 1.4fr);
+  }
+  .landingpage h2 {
+    font-size: 1.8rem;
+  }
+  .landingpage-button {
+    margin: 0vh;
+    margin-right: 0;
+  }
+  .landingpage-paragraph {
+    font-size: 1.1rem;
+  }
+  .landingpage button {
+    margin-right: 0;
+  }
+  .landingpage a {
+    margin-right: 0;
+  }
 }

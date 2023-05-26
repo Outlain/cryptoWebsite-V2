@@ -13,11 +13,11 @@ function LandingPage() {
                 <p>I have carefully designed my application to be both functional and easy to use, if the data is too much for your computer you can always turn off the Websocket Connection by clicking the stop button!</p>
                 <p>The data will initially load with the current last traded coins and when enough data is loaded a chart will apear in the middle with the top 4 most traded coins in the last 30 seconds that will show how they compare</p>
             </div>
-            <a href="https://carlosamadoroller.com" className="landingpage-button1">
+            <a href="https://carlosamadoroller.com" className="landingpage-button landingpage-button1">
                 Back To <br /> Main Website
             </a>
-            <button className="landingpage-button2" onClick={() => navigate('/charts')}>Crypto Analytics</button>
-            <button className="landingpage-button3" onClick={() => navigate('/news')}>Crypto News</button>
+            <button className="landingpage-button landingpage-button2" onClick={() => navigate('/charts')}>Crypto Analytics</button>
+            <button className="landingpage-button landingpage-button3" onClick={() => navigate('/news')}>Crypto News</button>
         </div>
     );
 }
