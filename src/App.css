@@ -298,33 +298,35 @@ button {
 .landingpage {
   height: 100vh;
   width: 100vw;
-  background-image: url("./img/crypto-background-2fclean.png");
+  background-image: url("./img/cryptoLandingPage.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: grid;
   grid-template-columns:
-    minmax(0, 3fr)
+    minmax(0, 1.8fr)
     minmax(0, 1.5fr)
     minmax(0, 0.3fr)
     minmax(0, 1.5fr)
     minmax(0, 0.3fr)
     minmax(0, 1.5fr)
-    minmax(0, 8.8fr);
+    minmax(0, 7fr);
   grid-template-rows:
+    minmax(0, 2.4fr)
+    minmax(0, 3fr)
     minmax(0, 1fr)
-    minmax(0, 1.6fr)
-    minmax(0, 0.33fr)
-    minmax(0, 1.7fr);
+    minmax(0, 1.5fr);
 }
 .landingpage h2 {
-  color: rgb(193, 163, 93);
+  color: rgb(248, 245, 252);
   grid-column: 2/7;
   grid-row: 1;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   text-align: center;
+  font-size: 2.7rem;
+  margin-bottom: 3vh;
 }
 .landingpage-paragraph {
   grid-column: 2/7;
@@ -333,12 +335,13 @@ button {
   height: 100%;
   width: 100%;
   overflow: auto;
+  text-align: justify;
 }
 
 .landingpage-paragraph p {
   padding: 0.5rem;
-  font-size: 0.85rem;
-  color: hsl(34, 3%, 46%);
+  font-size: 1.35rem;
+  color: rgb(248, 245, 252);
 }
 .landingpage-button1 {
   grid-column: 2;
@@ -356,34 +359,37 @@ button {
   height: 100%;
   width: 100%;
   /* margin: 1rem; */
-  background-color: rgb(18, 20, 21);
+  background-color: rgb(23, 173, 248);
   border: solid 0.1rem rgb(78, 69, 59);
-  color: rgb(78, 69, 59);
+  color: rgb(208, 246, 253);
   margin-right: 1rem;
   box-sizing: border-box;
-  font-size: 0.85rem;
+  font-size: 1.35rem;
+  border-radius: 15px;
 }
 .landingpage button:hover {
-  background-color: rgba(18, 20, 21, 0.5);
+  /* background-color: rgba(18, 20, 21, 0.5); */
+  transform: scale(1.2);
   cursor: pointer;
 }
 .landingpage a {
   height: 100%;
   width: 100%;
   /* margin: 1rem; */
-  background-color: rgb(18, 20, 21);
+  background-color: rgb(23, 173, 248);
   border: solid 0.1rem rgb(78, 69, 59);
-  color: rgb(78, 69, 59);
+  color: rgb(208, 246, 253);
   margin-right: 1rem;
   box-sizing: border-box;
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 1.35rem;
   text-align: center;
+  border-radius: 15px;
 }
 .landingpage a:hover {
-  background-color: rgba(18, 20, 21, 0.5);
+  transform: scale(1.2);
   cursor: pointer;
 }

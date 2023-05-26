@@ -34,7 +34,6 @@ function ChartsPage() {
     // console.log('currentActiveCoinsList')
     // console.log(currentActiveCoinsList)
     // console.log('currentActiveCoinData')
-    // console.log(currentActiveCoinData)
     // console.log('currentDeleting')
     // console.log(currentDeleting)
 
