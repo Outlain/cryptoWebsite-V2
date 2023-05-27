@@ -1,21 +1,22 @@
 .news {
   height: 100vh;
   width: 100vw;
+  margin-top: -4vh;
 }
 
 .news-top {
-  height: 65%;
+  height: 45%;
   width: 100vw;
-  /* background-color: red; */
+  /* background-color: lightgray; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .news-bottom {
-  height: 35%;
+  height: 55%;
   width: 100vw;
-  background-color: darkblue;
+  background-color: lightgray;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -23,14 +24,15 @@
 }
 
 .fear-greed {
-  /* background-color: white; */
+  /* background-color: rgba(255, 255, 255, 0.8); */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 }
 
-.fear-greed div{
+.fear-greed div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +40,76 @@
 }
 
 .news-bottom div {
-  height: 50%;
-  width: 93vw;
+  margin-top: 2vh;
+  height: 75%;
+  width: 88vw;
   background-color: white;
+}
+
+.news-line-chart div {
+  height: 90%;
+  width: 90%;
+  padding-left: 8%;
+}
+
+@media screen and (max-width: 980px) {
+  .news-bottom div {
+    width: 97%;
+  }
+  .news-line-chart div {
+    height: 95%;
+    width: 97%;
+    padding-left: 4%;
+    padding-top: 0;
+  }
+}
+
+.news-top-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.data-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-top-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32%;
+  height: 70%;
+}
+
+.news-top-right h4 {
+  width: 80%;
+  height: 32%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.news-top-right .data-button {
+  height: 32%;
+}
+
+.news-top-right select{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45%;
+  width: 100%;
+}
+.news-top-right button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45%;
+  width: 100%;
 }
