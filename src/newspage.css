@@ -5,7 +5,7 @@
 }
 
 .news-top {
-  height: 45%;
+  height: 55%;
   width: 100vw;
   /* background-color: lightgray; */
   display: flex;
@@ -14,7 +14,7 @@
 }
 
 .news-bottom {
-  height: 55%;
+  height: 45%;
   width: 100vw;
   background-color: lightgray;
   display: flex;
@@ -37,19 +37,74 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 30vh;
+  width: 25vw;
 }
 
-.news-bottom div {
+.news-bottom > div {
   margin-top: 2vh;
-  height: 75%;
+  height: 90%;
   width: 88vw;
   background-color: white;
+  border-radius: 15px;
 }
 
-.news-line-chart div {
-  height: 90%;
-  width: 90%;
-  padding-left: 8%;
+.news-line-chart > div {
+  height: 100%;
+}
+.news-line-chart > div > div {
+  height: 95%;
+  width: 100%;
+  padding: 3vh;
+  border-radius: 15px;
+}
+.news-top-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-top-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  height: 80%;
+}
+
+.news-top-right h5 {
+  width: 80%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.news-top-right .data-button {
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.news-top-right select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35%;
+  width: 10vw;
+  margin-bottom: 0.2vh;
+  text-align: center;
+}
+.news-top-right button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  width: 10vw;
 }
 
 @media screen and (max-width: 980px) {
@@ -62,54 +117,51 @@
     padding-left: 4%;
     padding-top: 0;
   }
+  .news-top-right h5 {
+    font-size: 0.7rem;
+  }
 }
 
-.news-top-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.data-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.news-top-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32%;
-  height: 70%;
-}
-
-.news-top-right h4 {
-  width: 80%;
-  height: 32%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.news-top-right .data-button {
-  height: 32%;
-}
-
-.news-top-right select{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 45%;
+@media screen and (max-width: 650px) {
+  .news {
+    height: auto;
+  }
+  .news-top {
+    flex-direction: column;
+    height: auto;
+  }
+  .fear-greed {
+    height: 48vh;
+    padding-top: 8vh;
+  }
+  .news-top-right {
+    height: 30vh;
+    width: 100vw;
+  }
+  .news-top-right button {
+    width: 50vw;
+  }
+  .news-top-right select {
+    width: 50vw;
+  }
+  .fear-greed div {
+    height: auto;
+    width: 65vw;
+  }
+  .news-bottom {
+    height: 50vh;
+    margin-top: 10vh;
+    padding-top: 1vh;
+  }
+  .news-line-chart {
+    height: 55vh;
+  }
+  .news-line-chart > div {
+  }
+  .news-line-chart > div > div {
+  height: 99%;
   width: 100%;
+  padding: 1vh;
+  border-radius: 15px;
 }
-.news-top-right button{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 45%;
-  width: 100%;
 }

@@ -116,8 +116,6 @@ const FearAndGreedIndex = () => {
                             <h2> Fear and Greed Index from {currentDay} ago </h2>
                         )}
                         <Chart
-                            width={"25vw"}
-                            height={"30vh"}
                             chartType="Gauge"
                             loader={<div>Loading Chart</div>}
                             data={[
@@ -160,11 +158,11 @@ const FearAndGreedIndex = () => {
                     <p>Loading...</p>
                 )}
                 <div className="news-top-right">
-                    <h4>
+                    <h5>
                         Select the TimeFrame of data you would like to see and manipulate,
                         then select the number days you would like to view individualy
                         charted from the timeframe
-                    </h4>
+                    </h5>
                     <div className="data-button data-day-button">
                         <select
                             value={currentDataAmountSelection}
